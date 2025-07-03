@@ -27,8 +27,16 @@ func main() {
 
 	for update := range updates {
 		if update.Message != nil {
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Привет!")
-			bot.Send(msg)
+			// Логируем ID пользователя, имя и текст сообщения
+			log.Printf("UserID: %d, Username: %s, Message: %s",
+				update.Message.From.ID,
+				update.Message.From.UserName,
+				update.Message.Text)
+
+			if update.Message.Text == "/start" {
+				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Привет! Вы нажали /start")
+				bot.Send(msg)
+			}
 		}
 	}
 }
